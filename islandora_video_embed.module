@@ -1,0 +1,50 @@
+<?php
+/**
+ * @file
+ * Main hooks for Islandora Usage Reports.
+ */
+
+/**
+ * Implements hook_block_info(). Creates blocks.
+ * DRUPAL_CACHE_PER_PAGE set so that not too many API calls are made.
+ */
+
+function islandora_video_embed_block_info() {
+  return array(
+    'video_embed_object' => array(
+      'visibility' => BLOCK_VISIBILITY_LISTED,
+      'pages' => 'islandora/object/*',
+      'info' => t('Video embed code'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+
+function islandora_video_embed_block_view($delta) {
+  $to_render = array();
+
+  $object = menu_get_object('islandora_object', 2);
+// Exclude the Collection CModel from displaying the block
+  if (!in_array("islandora:sp_videoCModel", $object->models)) {
+    return;
+  }
+  global $base_url;
+  $pid = $object->id;
+
+  $dsid = "MP4";
+  $width = "320";
+  $height = "240";
+
+  $video_url = $base_url . '/islandora/object/' . $pid . '/datastream/' . $dsid . '/download/file.mp4';
+  $embed_code =  '&lt;video width="' . $width . '" height="' . $height . '" controls&gt;
+     &lt;source src="' . $video_url .'" type="video/mp4"&gt;
+  &lt;/video&gt;';
+
+  $to_render['content'] = $embed_code;
+
+  return $to_render;
+}
+
