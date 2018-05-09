@@ -5,6 +5,35 @@
  */
 
 /**
+ * Implements hook_menu().
+ */
+function islandora_video_embed_menu() {
+  return array(
+    'admin/islandora/tools/video_embed' => array(
+      'title' => 'Islandora Video Embed',
+      'description' => 'Configure Islandora Video Embed settings.',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('islandora_video_embed_admin_form'),
+      'access arguments' => array('administer site configuration'),
+    ),
+  );
+}
+
+/**
+ * Generates admin form.
+ */
+function islandora_video_embed_admin_form($form, $form_settings) {
+  $form['islandora_video_embed_linktext'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Link text for embed block'),
+    '#description' => t('The clickable text that appears in the block.'),
+    '#default_value' => variable_get('islandora_video_embed_linktext', 'Video embed code'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
  * Implements hook_block_info(). Creates blocks.
  */
 
@@ -40,6 +69,7 @@ function islandora_video_embed_block_view($delta) {
   $width = "320";
   $height = "240";
   $collapsed = 'collapsed';
+  $legend = variable_get('islandora_video_embed_linktext', 'Video embed code');
 
   $video_url = $base_url . '/islandora/object/' . $pid . '/datastream/' . $dsid . '/download/file.mp4';
   $embed_code =  '<p><i>Copy the HTML below and paste it where you wish to embed the video.</i></p>
@@ -48,7 +78,7 @@ function islandora_video_embed_block_view($delta) {
     &lt;/video&gt;';
   $embed_code = 
   '<fieldset class="islandora collapsible ' . $collapsed . '">' .
-  '<legend><span class="fieldset-legend">Video embed code</span></legend><div class="fieldset-wrapper">' .  
+  '<legend><span class="fieldset-legend">' . $legend . '</span></legend><div class="fieldset-wrapper">' .  
   $embed_code . '</div></fieldset>'; 
 
   $to_render['content'] = $embed_code;
