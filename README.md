@@ -1,11 +1,11 @@
-# islandora_usage_reports
-Creates usage reports and blocks from Islandora Usage Stats.
+# Islandora Video Embed
 
-Currently, just creates a block on an object view page with a view count and a download count.
+Generates a block on Video objects, which displays HTML code users can copy to embed the video on their own webpages.
 
 ## Requirements
 * Islandora
-* Islandora Usage Stats
-* [Islandora Usage Stats Callbacks](https://github.com/FLVC/islandora_usage_stats_callbacks)
 
+## Configuration
+1. Enable the module
+2. Enable the block. "Sidebar Second" is the recommended region.
 
