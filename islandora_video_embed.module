@@ -26,6 +26,9 @@ function islandora_video_embed_block_info() {
 function islandora_video_embed_block_view($delta) {
   $to_render = array();
 
+  drupal_add_js('misc/collapse.js');
+  drupal_add_js('misc/form.js');
+
   $object = menu_get_object('islandora_object', 2);
 // Exclude the Collection CModel from displaying the block
   if (!in_array("islandora:sp_videoCModel", $object->models)) {
@@ -37,11 +40,17 @@ function islandora_video_embed_block_view($delta) {
   $dsid = "MP4";
   $width = "320";
   $height = "240";
+  $collapsed = 'collapsed';
 
   $video_url = $base_url . '/islandora/object/' . $pid . '/datastream/' . $dsid . '/download/file.mp4';
-  $embed_code =  '&lt;video width="' . $width . '" height="' . $height . '" controls&gt;
-     &lt;source src="' . $video_url .'" type="video/mp4"&gt;
-  &lt;/video&gt;';
+  $embed_code =  '<p><i>Copy the HTML below and paste it where you wish to embed the video.</i></p>
+    &lt;video width="' . $width . '" height="' . $height . '" controls&gt; <br/>
+    &lt;source src="' . $video_url .'" type="video/mp4"&gt; <br/>
+    &lt;/video&gt;';
+  $embed_code = 
+  '<fieldset class="islandora collapsible ' . $collapsed . '">' .
+  '<legend><span class="fieldset-legend">Video embed code</span></legend><div class="fieldset-wrapper">' .  
+  $embed_code . '</div></fieldset>'; 
 
   $to_render['content'] = $embed_code;
 
