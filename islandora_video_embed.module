@@ -30,7 +30,7 @@ function islandora_video_embed_block_view($delta) {
   drupal_add_js('misc/form.js');
 
   $object = menu_get_object('islandora_object', 2);
-// Exclude the Collection CModel from displaying the block
+  // Only display the block on Video objects.
   if (!in_array("islandora:sp_videoCModel", $object->models)) {
     return;
   }
