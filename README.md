@@ -1,6 +1,6 @@
 # Islandora Video Embed
 
-Generates a block on Video objects, which displays HTML code users can copy to embed the video on their own webpages.
+Generates a block on Video and Audio objects, which displays HTML code users can copy to embed on their own webpages.
 
 ## Requirements
 * Islandora
@@ -8,4 +8,3 @@ Generates a block on Video objects, which displays HTML code users can copy to e
 ## Configuration
 1. Enable the module
 2. Enable the block. "Sidebar Second" is the recommended region.
-

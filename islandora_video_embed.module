@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Main hooks for Islandora Video Embed.
@@ -34,9 +35,10 @@ function islandora_video_embed_admin_form($form, $form_settings) {
 }
 
 /**
- * Implements hook_block_info(). Creates blocks.
+ * Implements hook_block_info().
+ *
+ * Creates blocks.
  */
-
 function islandora_video_embed_block_info() {
   return array(
     'video_embed_object' => array(
