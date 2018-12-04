@@ -85,11 +85,11 @@ function islandora_video_embed_block_view($delta) {
   elseif (in_array("islandora:sp-audioCModel", $object->models)) {
     $dsid = "PROXY_MP3";
     $legend = variable_get('islandora_video_embed_linktext', 'Audio embed code');
-    $audio_url = $base_url . '/islandora/object/' . $pid . '/datastream/' . $dsid . '/download/file.mp4';
+    $audio_url = $base_url . '/islandora/object/' . $pid . '/datastream/' . $dsid . '/download/file.mp3';
 
     $embed_code = '<p><i>Copy the HTML below and paste it where you wish to embed the audio.</i></p>
       &lt;audio controls&gt; <br/>
-      &lt;source src="' . $audio_url . '" type="audio/mp4"&gt; <br/>
+      &lt;source src="' . $audio_url . '" type="audio/mpeg"&gt; <br/>
       &lt;/audio&gt;';
   }
   $embed_code =
