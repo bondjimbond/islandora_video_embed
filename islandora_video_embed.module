@@ -62,7 +62,7 @@ function islandora_video_embed_block_view($delta) {
 
   // Only display the block on Video and Audio objects.
   if (!in_array("islandora:sp_videoCModel", $object->models) && !in_array("islandora:sp-audioCModel", $object->models)) {
-    return NULL;
+    return;
   }
   global $base_url;
   $pid = $object->id;
