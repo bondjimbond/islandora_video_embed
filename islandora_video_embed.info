@@ -1,6 +1,6 @@
 name = Islandora Video Embed
 version = 7.x
 core = 7.x
-description = Generates embed code for Islandora videos
+description = Generates embed code for Islandora videos and audio
 dependencies[] = islandora
 package = Islandora Tools

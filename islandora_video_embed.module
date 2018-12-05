@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Main hooks for Islandora Video Embed.
@@ -34,9 +35,10 @@ function islandora_video_embed_admin_form($form, $form_settings) {
 }
 
 /**
- * Implements hook_block_info(). Creates blocks.
+ * Implements hook_block_info().
+ *
+ * Creates blocks.
  */
-
 function islandora_video_embed_block_info() {
   return array(
     'video_embed_object' => array(
@@ -50,7 +52,6 @@ function islandora_video_embed_block_info() {
 /**
  * Implements hook_block_view().
  */
-
 function islandora_video_embed_block_view($delta) {
   $to_render = array();
 
@@ -58,31 +59,45 @@ function islandora_video_embed_block_view($delta) {
   drupal_add_js('misc/form.js');
 
   $object = menu_get_object('islandora_object', 2);
-  // Only display the block on Video objects.
-  if (!in_array("islandora:sp_videoCModel", $object->models)) {
-    return;
+
+  // Only display the block on Video and Audio objects.
+  if (!in_array("islandora:sp_videoCModel", $object->models) && !in_array("islandora:sp-audioCModel", $object->models)) {
+    return NULL;
   }
   global $base_url;
   $pid = $object->id;
-
-  $dsid = "MP4";
-  $width = "320";
-  $height = "240";
+  $embed_code = "";
   $collapsed = 'collapsed';
-  $legend = variable_get('islandora_video_embed_linktext', 'Video embed code');
 
-  $video_url = $base_url . '/islandora/object/' . $pid . '/datastream/' . $dsid . '/download/file.mp4';
-  $embed_code =  '<p><i>Copy the HTML below and paste it where you wish to embed the video.</i></p>
-    &lt;video width="' . $width . '" height="' . $height . '" controls&gt; <br/>
-    &lt;source src="' . $video_url .'" type="video/mp4"&gt; <br/>
-    &lt;/video&gt;';
-  $embed_code = 
+  if (in_array("islandora:sp_videoCModel", $object->models)) {
+    $dsid = "MP4";
+    $width = "320";
+    $height = "240";
+    $legend = variable_get('islandora_video_embed_linktext', 'Video embed code');
+    $video_url = $base_url . '/islandora/object/' . $pid . '/datastream/' . $dsid . '/download/file.mp4';
+
+    $embed_code = '<p><i>Copy the HTML below and paste it where you wish to embed the video.</i></p>
+      &lt;video width="' . $width . '" height="' . $height . '" controls&gt; <br/>
+      &lt;source src="' . $video_url . '" type="video/mp4"&gt; <br/>
+      &lt;/video&gt;';
+
+  }
+  elseif (in_array("islandora:sp-audioCModel", $object->models)) {
+    $dsid = "PROXY_MP3";
+    $legend = variable_get('islandora_video_embed_linktext', 'Audio embed code');
+    $audio_url = $base_url . '/islandora/object/' . $pid . '/datastream/' . $dsid . '/download/file.mp3';
+
+    $embed_code = '<p><i>Copy the HTML below and paste it where you wish to embed the audio.</i></p>
+      &lt;audio controls&gt; <br/>
+      &lt;source src="' . $audio_url . '" type="audio/mpeg"&gt; <br/>
+      &lt;/audio&gt;';
+  }
+  $embed_code =
   '<fieldset class="islandora collapsible ' . $collapsed . '">' .
-  '<legend><span class="fieldset-legend">' . $legend . '</span></legend><div class="fieldset-wrapper">' .  
-  $embed_code . '</div></fieldset>'; 
+  '<legend><span class="fieldset-legend">' . $legend . '</span></legend><div class="fieldset-wrapper">' .
+  $embed_code . '</div></fieldset>';
 
   $to_render['content'] = $embed_code;
 
   return $to_render;
 }
-

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template file for the Islandora Video Embed module.
